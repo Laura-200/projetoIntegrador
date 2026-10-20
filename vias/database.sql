@@ -1,3 +1,10 @@
+-- =====================================================
+-- BANCO DE DADOS DA LOJA VIAS PARA O CÉU
+-- Rode este arquivo dentro de um banco VAZIO chamado "vias".
+-- Ele cria as 5 tabelas e coloca as categorias e os produtos.
+-- =====================================================
+
+
 -- Criando a tabela de usuários
 CREATE TABLE usuarios (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -7,19 +14,13 @@ CREATE TABLE usuarios (
     tipo VARCHAR(20) NOT NULL DEFAULT 'cliente'
 );
 
--- Colocando usuários de teste
+-- Colocando as contas padrão (senhas já em hash)
+-- Administrador: admin@vias.com / admin123
+-- Cliente:       cliente@vias.com / cliente123
 INSERT INTO usuarios (nome, email, senha, tipo)
 VALUES
-('Maria', 'maria@email.com', '123456', 'admin'),
-('João', 'joao@email.com', '123456', 'cliente');
-
--- Consultando os usuários
-SELECT * FROM usuarios;
-
--- Alterando um usuário
-UPDATE usuarios
-SET nome = 'Maria Atualizada'
-WHERE id = 1;
+('Administrador', 'admin@vias.com', '$2y$12$H3RHQ4FWt4bH5pk8tkta8ebmJijLZZFHdB8woLBKIWrWmHX582Po6', 'admin'),
+('Cliente', 'cliente@vias.com', '$2y$12$ABLREa9tKoPMgOixmrgmaulKIB75EknrtBPj/A7k6c0ck2NlwXSea', 'cliente');
 
 
 -- Criando as categorias dos produtos
@@ -126,7 +127,39 @@ VALUES
     3
 );
 
--- Consultando os produtos e suas categorias
+
+-- Criando a tabela de pedidos
+CREATE TABLE pedidos (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    usuario_id INTEGER NOT NULL,
+    data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(30) NOT NULL DEFAULT 'Pendente',
+
+    CONSTRAINT fk_pedido_usuario
+        FOREIGN KEY (usuario_id)
+        REFERENCES usuarios(id)
+);
+
+
+-- Criando a tabela dos itens de cada pedido
+CREATE TABLE itens_pedido (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    pedido_id INTEGER NOT NULL,
+    produto_id INTEGER NOT NULL,
+    quantidade INTEGER NOT NULL DEFAULT 1,
+    preco DECIMAL(10,2) NOT NULL,
+
+    CONSTRAINT fk_item_pedido
+        FOREIGN KEY (pedido_id)
+        REFERENCES pedidos(id),
+
+    CONSTRAINT fk_item_produto
+        FOREIGN KEY (produto_id)
+        REFERENCES produtos(id)
+);
+
+
+-- Conferindo os produtos e suas categorias
 SELECT
     produtos.id,
     produtos.nome,
