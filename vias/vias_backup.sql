@@ -2,7 +2,6 @@
 -- PostgreSQL database dump
 --
 
-\restrict aYlOG3lF7FoVyjNBRpdg7Hwcs9oQo7DOkqvkc73wrd6hr8C2rW6JGrcDmPgk8RB
 
 -- Dumped from database version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
 -- Dumped by pg_dump version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
@@ -246,7 +245,6 @@ COPY public.produtos (id, nome, descricao, preco, imagem, categoria_id) FROM std
 10	Crucifixo Dourado Decorativo	Crucifixo decorativo com acabamento dourado e detalhes trabalhados.	85.00	crucifixo-dourado.png	3
 5	Crucifixo de Madeira	Cruz religiosa para decoração e momentos de oração.	40.00	cruz-decorativa.png	3
 1	Escapulário Nossa Senhora do Carmo	Escapulário artesanal de Nossa Senhora do Carmo, confeccionado com carinho e devoção.	35.00	escapulario-nossa-senhora-do-carmo.png	1
-13	oi	oi	8000.00	\N	4
 \.
 
 
@@ -255,11 +253,11 @@ COPY public.produtos (id, nome, descricao, preco, imagem, categoria_id) FROM std
 --
 
 COPY public.usuarios (id, nome, email, senha, tipo) FROM stdin;
-2	João	joao@email.com	123456	cliente
+2	Cliente	cliente@vias.com	$2y$12$ABLREa9tKoPMgOixmrgmaulKIB75EknrtBPj/A7k6c0ck2NlwXSea	cliente
 3	Laura teste	laura.m@senai.com	$2y$12$1ky1p2FFyXUxggxlKYx5ZuwTJlIRbaxH.rOZlvmuYytavM1mxL8KW	cliente
 4	Laura teste	laura.m@senai.com	$2y$12$JvnSldSCfrLMwrhPJp5R3.TEJWRSCXZxUV3aTeAf6Mh03oyCyDDUu	cliente
 5	laura teste email	laura.magazil@com.br	$2y$12$.dZxwq5x0HXei5i9QNyv3eD.JOlgnC7q6oXwqFvGxXQfcADjPZ/Xi	cliente
-1	Maria Atualizada	maria@email.com	123456	admin
+1	Administrador	admin@vias.com	$2y$12$H3RHQ4FWt4bH5pk8tkta8ebmJijLZZFHdB8woLBKIWrWmHX582Po6	admin
 6	adm teste	adm@vias.com	$2y$12$7slm/J1KiHR3kUQZtT5Fd.J/aO/Eg1..qw2b.llNX44sd4ErrQbQO	admin
 7	anderson retamero	anderson@gmail.com	$2y$12$fEfWZUGKe2E9i57UNa8OQe8jPOlnXSMnRhLY0KFl6W65qZilobXMi	cliente
 8	lau	lau@gmail.com	$2y$12$wpmBFJuVn9F3jzw62y/mAu.309EWVnaqBrlCMx9ro80vuFtzIosbi	cliente
@@ -377,5 +375,4 @@ ALTER TABLE ONLY public.produtos
 -- PostgreSQL database dump complete
 --
 
-\unrestrict aYlOG3lF7FoVyjNBRpdg7Hwcs9oQo7DOkqvkc73wrd6hr8C2rW6JGrcDmPgk8RB
 
