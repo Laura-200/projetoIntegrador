@@ -5,7 +5,7 @@ $servidor = "192.168.10.32";
 $porta = "5432";
 $banco = "vias";
 $usuario = "postgres";
-$senha = "L@ur@2025";
+$senha = "";
 
 try {
 
