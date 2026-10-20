@@ -341,6 +341,24 @@ Antes de começar, instale:
 - [PostgreSQL](https://www.postgresql.org/download/) ou acesso ao servidor PostgreSQL utilizado pelo projeto.
 - [Visual Studio Code](https://code.visualstudio.com/)
 
+**No Linux (Ubuntu, Debian e parecidos)**, dá para instalar tudo de uma vez pelo terminal:
+
+```bash
+sudo apt update
+```
+
+```bash
+sudo apt install git php php-pgsql postgresql
+```
+
+Depois, ligue o PostgreSQL:
+
+```bash
+sudo systemctl start postgresql
+```
+
+> O `sudo` pede a senha do **seu usuário do Linux**. Ela também não aparece enquanto você digita.
+
 ### 2. Baixar o projeto
 
 Abra o terminal e execute o comando abaixo:
@@ -383,7 +401,10 @@ Depois, confira se o PHP sabe conversar com o PostgreSQL:
 php -m
 ```
 
-Na lista que aparecer, precisa existir a linha `pdo_pgsql`. Se ela não aparecer, abra o arquivo `php.ini` (fica na pasta onde o PHP foi instalado), procure a linha `;extension=pdo_pgsql`, apague o `;` do começo, salve e abra um terminal novo.
+Na lista que aparecer, precisa existir a linha `pdo_pgsql`. Se ela não aparecer:
+
+- **Windows:** abra o arquivo `php.ini` (fica na pasta onde o PHP foi instalado), procure a linha `;extension=pdo_pgsql`, apague o `;` do começo, salve e abra um terminal novo.
+- **Linux:** instale o pacote que falta com `sudo apt install php-pgsql`.
 
 ### 5. Conferir se você está na pasta certa
 
@@ -404,18 +425,27 @@ Siga os passos na ordem, um de cada vez.
 - O **PostgreSQL** é um armário gigante.
 - O **banco `vias`** é uma gaveta desse armário, só da nossa loja.
 - As **tabelas** são caixinhas dentro da gaveta: uma de usuários, uma de produtos, uma de pedidos...
+- O **usuário do banco** (`vias_user`) é quem tem a chave da gaveta. O site usa esse usuário para entrar no banco.
 - O **`psql`** é a janelinha preta onde a gente escreve ordens para o armário.
 
 Se a gaveta `vias` não existir, o site não acha nada e mostra *"Não foi possível conectar ao banco"*.
 
-#### 6.2 Abrir a janelinha do psql
+#### 6.2 Abrir o psql como administrador
 
-**Jeito mais fácil (Windows):**
+Primeiro entramos com o usuário `postgres`, que é o "dono do armário". Só ele pode criar usuários e bancos novos.
+
+**Windows:**
 
 1. Aperte a tecla do Windows.
 2. Digite **SQL Shell (psql)** e abra.
 3. Ele vai perguntar `Server`, `Database`, `Port` e `Username`. Só aperte **Enter** em cada um (ele usa o padrão).
 4. Quando pedir `Password`, digite a senha que você escolheu ao instalar o PostgreSQL e aperte **Enter**.
+
+**Linux:**
+
+```bash
+sudo -u postgres psql
+```
 
 > ⚠️ A senha **não aparece** enquanto você digita. Nem bolinha, nem asterisco. Isso é normal! Digite normalmente e aperte Enter.
 
@@ -427,35 +457,37 @@ postgres=#
 
 Esse `postgres=#` quer dizer: *"estou ouvindo, pode mandar"*.
 
-**Jeito pelo terminal do VS Code** (só funciona se o `psql` estiver no PATH):
+#### 6.3 Criar o usuário e a gaveta `vias`
 
-```bash
-psql -U postgres
-```
-
-#### 6.3 Criar a gaveta `vias`
-
-Na janelinha do psql, digite:
+Ainda no psql, crie o usuário que o site vai usar:
 
 ```sql
-CREATE DATABASE vias;
+CREATE USER vias_user WITH PASSWORD 'vias123';
+```
+
+Agora crie o banco e diga que ele pertence a esse usuário:
+
+```sql
+CREATE DATABASE vias OWNER vias_user;
 ```
 
 > **Regra de ouro:** comando SQL termina com **ponto e vírgula** `;`. Se esquecer, o psql fica esperando e mostra `postgres-#` (com tracinho). Aí é só digitar `;` e apertar Enter.
 
-Se aparecer `CREATE DATABASE`, deu certo!
+Se aparecerem `CREATE ROLE` e `CREATE DATABASE`, deu certo!
 
-Agora entre na gaveta:
+> A senha `vias123` é um exemplo. Pode trocar por outra, mas lembre dela: ela vai no passo 6.6.
+
+Pronto, já pode sair do psql:
 
 ```sql
-\c vias
+\q
 ```
-
-O começo da linha muda para `vias=#`. A partir de agora, tudo o que você fizer vai para a gaveta certa.
 
 > Comandos que começam com `\` (barra invertida) são do próprio psql e **não** precisam de `;`.
 
 #### 6.4 Encher a gaveta com as caixinhas
+
+Agora o trabalho é feito com o usuário novo, `vias_user`. Abra o terminal do VS Code **dentro da pasta `vias`**.
 
 Aqui você escolhe **UM** caminho. **Só um!** Se fizer os dois, as caixinhas brigam e dá erro.
 
@@ -463,33 +495,40 @@ Aqui você escolhe **UM** caminho. **Só um!** Se fizer os dois, as caixinhas br
 
 Cria as 5 tabelas e coloca as categorias e os produtos. Também cria as 2 contas padrão (veja o passo 6.7). Não vem nenhum pedido.
 
-Ainda no psql (com `vias=#` na tela), digite o caminho do arquivo `database.sql` do **seu** computador, usando barras normais `/`:
-
-```sql
-\i 'C:/Users/SEU_USUARIO/Documents/projetoIntegrador/vias/database.sql'
-```
-
-> Troque `C:/Users/SEU_USUARIO/Documents` pelo lugar onde você clonou o projeto. Dica: no VS Code, clique com o botão direito no `database.sql` → **Copiar Caminho**, cole e troque as `\` por `/`.
-
-Ou, pelo terminal do VS Code, dentro da pasta `vias`:
-
 ```bash
-psql -U postgres -d vias -f database.sql
+psql -h localhost -U vias_user -d vias -f database.sql
 ```
 
 **Caminho B: restaurar o backup**
 
-Traz tudo do jeito que estava: produtos, usuários e pedidos antigos. Pelo terminal, dentro da pasta `vias`:
+Traz tudo do jeito que estava: produtos, usuários e pedidos antigos.
 
 ```bash
-psql -U postgres -d vias -f vias_backup.sql
+psql -h localhost -U vias_user -d vias -f vias_backup.sql
 ```
 
 > O backup também já vem com as 2 contas padrão do passo 6.7.
 
+Nos dois caminhos, ele pede a senha do `vias_user` (`vias123`, se você não trocou).
+
+> **O que é cada pedaço do comando?**
+> `-h localhost` = o banco está neste computador · `-U vias_user` = entra com esse usuário · `-d vias` = na gaveta `vias` · `-f arquivo.sql` = roda os comandos desse arquivo.
+
+> **Windows:** se aparecer `'psql' não é reconhecido como um comando`, use o caminho completo do programa (troque o `18` pela versão instalada):
+>
+> ```powershell
+> & "C:\Program Files\PostgreSQL\18\bin\psql.exe" -h localhost -U vias_user -d vias -f database.sql
+> ```
+
 #### 6.5 Conferir se as caixinhas estão lá
 
-No psql, conectado em `vias`:
+Entre no banco com o usuário novo:
+
+```bash
+psql -h localhost -U vias_user -d vias
+```
+
+O começo da linha agora é `vias=>`. Liste as tabelas:
 
 ```sql
 \dt
@@ -511,25 +550,25 @@ Quer ver os produtos?
 SELECT * FROM produtos;
 ```
 
-Se aparecerem o Terço Rosa, o Crucifixo Dourado e companhia, o banco está pronto.
+Se aparecerem o Terço Rosa, o Crucifixo Dourado e companhia, o banco está pronto. Para sair, digite `\q`.
 
 #### 6.6 Contar para o PHP onde fica o banco
 
-Abra o arquivo `config/conexao.php` e confira estas linhas:
+Abra o arquivo `config/conexao.php` e deixe estas linhas assim:
 
 ```php
 $servidor = "localhost";       // "localhost" = o banco está no seu próprio computador
 $porta = "5432";               // porta padrão do PostgreSQL
 $banco = "vias";               // o nome da gaveta que você criou
-$usuario = "postgres";         // o usuário do PostgreSQL
-$senha = "SUA_SENHA_AQUI";     // a senha que você digita no psql
+$usuario = "vias_user";        // o usuário criado no passo 6.3
+$senha = "vias123";            // a senha criada no passo 6.3
 ```
 
 - Se o banco estiver no seu computador, use `localhost`.
-- Se o banco estiver no servidor da escola, use o endereço IP do servidor.
+- Se o banco estiver no servidor da escola, use o endereço IP do servidor e o usuário e a senha de lá.
 - **Nunca** envie a sua senha verdadeira para o GitHub.
 
-#### 6.7 Contas padrão
+#### 6.7 Contas padrão do site
 
 Os dois caminhos já criam estas contas para testar o site:
 
@@ -537,6 +576,8 @@ Os dois caminhos já criam estas contas para testar o site:
 |---|---|---|
 | Administrador | `admin@vias.com` | `admin123` |
 | Cliente | `cliente@vias.com` | `cliente123` |
+
+> Não confunda: essas são contas **do site** (para fazer login na loja). O `vias_user` é o usuário **do banco** (só o PHP usa).
 
 As senhas ficam guardadas no banco em **hash** (um código embaralhado), igual às contas criadas pelo cadastro do site.
 
@@ -546,7 +587,7 @@ As senhas ficam guardadas no banco em **hash** (um código embaralhado), igual �
 
 1. Inicie o site (passo 7) e abra `http://localhost:8000/cadastro.php`.
 2. Cadastre-se normalmente, com o seu e-mail.
-3. Volte ao psql, conectado em `vias`, e rode:
+3. Entre no banco (`psql -h localhost -U vias_user -d vias`) e rode:
 
 ```sql
 UPDATE usuarios
@@ -556,44 +597,74 @@ WHERE email = 'seu@email.com';
 
 4. Saia e entre de novo no site. Agora o painel administrativo abre.
 
-#### 6.8 Sair do psql
+#### 6.8 Fazer o backup do banco (dump)
 
-```sql
-\q
+O **dump** é uma "foto" do banco inteiro: tabelas, produtos, usuários e pedidos, tudo num arquivo `.sql`. Faça isso antes de mudar algo importante ou de entregar o projeto.
+
+No terminal, dentro da pasta `vias`:
+
+```bash
+pg_dump -h localhost -U vias_user -d vias --no-owner --no-privileges -f vias_backup.sql
 ```
+
+Ele pede a senha do `vias_user` e cria (ou **substitui**) o arquivo `vias_backup.sql`.
+
+> **O que é cada pedaço?**
+> `--no-owner` e `--no-privileges` = não grava quem é o dono das tabelas. Assim o backup pode ser restaurado com qualquer usuário, em qualquer computador.
+
+> **Windows:** se aparecer `'pg_dump' não é reconhecido como um comando`, use o caminho completo (troque o `18` pela versão instalada):
+>
+> ```powershell
+> & "C:\Program Files\PostgreSQL\18\bin\pg_dump.exe" -h localhost -U vias_user -d vias --no-owner --no-privileges -f vias_backup.sql
+> ```
+
+Quer guardar backups antigos sem apagar? Coloque a data no nome:
+
+```bash
+pg_dump -h localhost -U vias_user -d vias --no-owner --no-privileges -f vias_backup_2026-10-20.sql
+```
+
+Para **restaurar** um backup, use o Caminho B do passo 6.4, num banco vazio.
 
 #### Deu erro?
 
 | Mensagem | O que quer dizer | O que fazer |
 |---|---|---|
-| `'psql' não é reconhecido como um comando` | O terminal não sabe onde está o psql | Use o **SQL Shell (psql)** do menu Iniciar |
+| `'psql' não é reconhecido como um comando` | O Windows não sabe onde está o psql | Use o caminho completo (veja o passo 6.4) |
 | `password authentication failed` | Senha errada | Digite de novo, com calma (ela não aparece mesmo) |
-| `database "vias" already exists` | A gaveta já existe | Tudo bem! Pule para o `\c vias` |
+| `Peer authentication failed for user "vias_user"` (Linux) | Faltou o `-h localhost` no comando | Rode de novo com `-h localhost` |
+| `role "vias_user" already exists` | O usuário já existe | Tudo bem! Pule para o `CREATE DATABASE` |
+| `database "vias" already exists` | A gaveta já existe | Tudo bem! Pule para o passo 6.4 |
 | `relation "usuarios" already exists` | As tabelas já foram criadas antes | Não rode o script de novo. Se quiser zerar, veja abaixo |
+| `permission denied for schema public` | O banco não pertence ao `vias_user` | No psql como `postgres`, rode `ALTER DATABASE vias OWNER TO vias_user;` |
 | `could not find driver` (no site) | O PHP não tem o `pdo_pgsql` ligado | Volte ao passo 4 |
-| `Connection refused` (no site) | O PostgreSQL está desligado ou o `$servidor` está errado | Confira o `config/conexao.php` |
+| `Connection refused` (no site ou no psql) | O PostgreSQL está desligado ou o `$servidor` está errado | Linux: `sudo systemctl start postgresql`. Confira o `config/conexao.php` |
 | `postgres-#` e nada acontece | Faltou o `;` | Digite `;` e aperte Enter |
 
-**Quero apagar tudo e começar de novo** ⚠️ (isso apaga **todos** os dados do banco `vias`, sem volta):
+**Quero apagar tudo e começar de novo** ⚠️ (isso apaga **todos** os dados do banco `vias`, sem volta; faça um dump antes, se precisar):
+
+Abra o psql como administrador (passo 6.2) e rode:
 
 ```sql
-\c postgres
 DROP DATABASE vias;
-CREATE DATABASE vias;
-\c vias
+CREATE DATABASE vias OWNER vias_user;
 ```
 
 Depois, repita o passo 6.4.
 
-#### Colinha de comandos do psql
+#### Colinha de comandos
 
 | Comando | O que faz |
 |---|---|
+| `sudo -u postgres psql` | (Linux) Abre o psql como administrador |
+| `psql -h localhost -U vias_user -d vias` | Entra no banco `vias` com o usuário do site |
+| `pg_dump -h localhost -U vias_user -d vias --no-owner --no-privileges -f vias_backup.sql` | Faz o backup (dump) |
 | `\l` | Lista todos os bancos (gavetas) |
+| `\du` | Lista os usuários do banco |
 | `\c vias` | Entra no banco `vias` |
 | `\dt` | Lista as tabelas (caixinhas) |
 | `\d produtos` | Mostra as colunas da tabela `produtos` |
-| `SELECT * FROM usuarios;` | Mostra todos os usuários |
+| `SELECT * FROM usuarios;` | Mostra todos os usuários do site |
 | `\q` | Sai do psql |
 
 ### 7. Iniciar o servidor PHP
@@ -630,7 +701,7 @@ Ctrl + C
 
 - O banco de dados PostgreSQL precisa estar acessível para que as funcionalidades que utilizam dados funcionem corretamente.
 - O arquivo `vias_backup.sql` é um backup do banco de dados. Ele contém e-mails e senhas (em hash) de usuários, então deve ser guardado em local seguro.
-- O backup não precisa ser restaurado a cada execução do site.
+- O backup não precisa ser restaurado a cada execução do site. Para gerar um novo, veja o passo 6.8.
 - As credenciais do banco de dados não devem ser publicadas no GitHub.
 - O servidor iniciado com `php -S` é destinado ao desenvolvimento e aos testes locais, não à hospedagem de produção.
 
