@@ -327,7 +327,7 @@ Antes de começar, instale:
 
 ### 2. Baixar o projeto
 
-Abra o terminal e execute o comando abaixo, substituindo `URL_DO_REPOSITORIO` pelo endereço real do repositório no GitHub:
+Abra o terminal e execute o comando abaixo:
 
 ```bash
 git clone https://github.com/Laura-200/projetoIntegrador.git
