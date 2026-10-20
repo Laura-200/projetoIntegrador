@@ -1,0 +1,77 @@
+.pagina-sobre {
+    min-height: 650px;
+    padding: 90px 25px;
+    display: flex;
+    justify-content: center;
+}
+
+.sobre {
+    width: 100%;
+    max-width: 850px;
+    text-align: center;
+}
+
+.sobre-detalhe {
+    color: #b18a5b;
+    font-size: 22px;
+    display: block;
+    margin-bottom: 22px;
+}
+
+.sobre h1 {
+    color: #7a3f3f;
+    font-size: clamp(38px, 5vw, 55px);
+    font-weight: normal;
+    margin-bottom: 25px;
+}
+
+.sobre-introducao {
+    color: #6b4b3a;
+    font-size: 20px;
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto 55px;
+}
+
+.sobre-bloco {
+    text-align: left;
+    border-top: 1px solid #d8c8b8;
+    padding: 35px 0;
+}
+
+.sobre-bloco h2 {
+    color: #7a3f3f;
+    font-size: 28px;
+    font-weight: normal;
+    margin-bottom: 15px;
+}
+
+.sobre-bloco p {
+    color: #6b4b3a;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.sobre-frase {
+    border-top: 1px solid #d8c8b8;
+    margin-top: 20px;
+    padding-top: 35px;
+}
+
+.sobre-frase p {
+    color: #967963;
+    font-size: 18px;
+    font-style: italic;
+}
+
+@media (max-width: 700px) {
+
+    .pagina-sobre {
+        padding: 70px 20px;
+    }
+
+    .sobre-bloco {
+        text-align: center;
+    }
+}

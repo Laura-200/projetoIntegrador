@@ -1,0 +1,104 @@
+/* Define o espaço principal da página */
+.pagina-produto {
+    min-height: 650px;
+    padding: 90px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Organiza imagem e informações lado a lado */
+.produto-detalhe {
+    width: 100%;
+    max-width: 1100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items: center;
+}
+
+/* Define o espaço reservado para a imagem */
+.produto-detalhe-imagem {
+    width: 100%;
+    height: 550px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Mantém a imagem inteira sem cortar */
+.produto-detalhe-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Organiza as informações do produto */
+.produto-detalhe-informacoes {
+    text-align: left;
+}
+
+/* Define o estilo da categoria */
+.produto-detalhe-categoria {
+    color: #b18a5b;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Define o título do produto */
+.produto-detalhe-informacoes h1 {
+    color: #7a3f3f;
+    font-size: clamp(35px, 5vw, 55px);
+    font-weight: normal;
+    line-height: 1.2;
+    margin: 18px 0 25px;
+}
+
+/* Define o estilo da descrição */
+.produto-detalhe-descricao {
+    color: #6b4b3a;
+    font-size: 18px;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+/* Define o estilo do preço */
+.produto-detalhe-preco {
+    color: #7a3f3f;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* Define o estilo do link de voltar */
+.voltar-produtos {
+    color: #7a3f3f;
+    text-decoration: none;
+}
+
+/* Muda a cor do link ao passar o mouse */
+.voltar-produtos:hover {
+    color: #b18a5b;
+}
+
+/* Ajusta a página para telas menores */
+@media (max-width: 800px) {
+
+    .pagina-produto {
+        padding: 70px 20px;
+    }
+
+    .produto-detalhe {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .produto-detalhe-imagem {
+        height: 450px;
+    }
+
+    .produto-detalhe-informacoes {
+        text-align: center;
+    }
+}

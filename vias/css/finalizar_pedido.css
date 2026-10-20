@@ -1,0 +1,194 @@
+/* Organizando a página de finalização */
+.pagina-finalizar {
+    min-height: 650px;
+    padding: 80px 25px;
+    background: #fffdf9;
+}
+
+/* Centralizando o conteúdo */
+.finalizar {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
+/* Criando o detalhe decorativo */
+.finalizar-detalhe {
+    display: block;
+    color: #b18a5b;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+/* Estilizando o título */
+.finalizar h1 {
+    color: #7a3f3f;
+    font-size: clamp(38px, 5vw, 52px);
+    font-weight: normal;
+    margin: 0 0 20px;
+}
+
+/* Estilizando os textos */
+.finalizar > p {
+    color: #6b4b3a;
+    font-size: 17px;
+    margin: 8px 0;
+}
+
+/* Criando a caixa dos produtos */
+.resumo-pedido {
+    margin: 40px 0 25px;
+    background: #ffffff;
+    border: 1px solid #e2d4c5;
+    box-shadow: 0 8px 25px rgba(107, 75, 58, 0.08);
+}
+
+/* Organizando cada produto */
+.resumo-item {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 25px;
+    align-items: center;
+    padding: 25px;
+    border-bottom: 1px solid #eee3d8;
+    text-align: left;
+}
+
+/* Retirando a borda do último produto */
+.resumo-item:last-child {
+    border-bottom: none;
+}
+
+/* Criando o espaço da imagem */
+.resumo-imagem {
+    width: 110px;
+    height: 110px;
+    background: #faf5ef;
+    border: 1px solid #eee3d8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ajustando a imagem */
+.resumo-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Organizando as informações */
+.resumo-informacoes h2 {
+    color: #7a3f3f;
+    font-size: 21px;
+    font-weight: normal;
+    margin: 0 0 12px;
+}
+
+.resumo-informacoes p {
+    color: #8a7060;
+    font-size: 15px;
+    margin: 6px 0;
+}
+
+/* Destacando o subtotal */
+.resumo-item strong {
+    color: #7a3f3f;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+/* Organizando o total */
+.resumo-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    background: #faf5ef;
+    border: 1px solid #e2d4c5;
+}
+
+/* Estilizando o título do total */
+.resumo-total h2 {
+    color: #7a3f3f;
+    font-size: 24px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Destacando o valor total */
+.resumo-total p {
+    color: #7a3f3f;
+    font-size: 30px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Organizando o botão */
+.finalizar form {
+    margin-top: 30px;
+}
+
+/* Estilizando o botão */
+.finalizar .botao {
+    padding: 16px 42px;
+    border: none;
+    background: #7a3f3f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Destacando o botão */
+.finalizar .botao:hover {
+    background: #b18a5b;
+    transform: translateY(-2px);
+}
+
+/* Estilizando o link de voltar */
+.voltar-produtos {
+    color: #7a3f3f;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.voltar-produtos:hover {
+    color: #b18a5b;
+}
+
+/* Ajustando para celular */
+@media (max-width: 650px) {
+
+    .pagina-finalizar {
+        padding: 60px 18px;
+    }
+
+    .resumo-item {
+        grid-template-columns: 80px 1fr;
+        gap: 15px;
+        padding: 18px;
+    }
+
+    .resumo-imagem {
+        width: 80px;
+        height: 80px;
+    }
+
+    .resumo-item strong {
+        grid-column: 2;
+    }
+
+    .resumo-total {
+        padding: 20px;
+    }
+
+    .resumo-total p {
+        font-size: 24px;
+    }
+
+    .finalizar .botao {
+        width: 100%;
+    }
+}

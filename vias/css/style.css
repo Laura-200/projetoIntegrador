@@ -1,0 +1,482 @@
+/* =========================================================
+   VIAS PARA O CÉU
+   CSS PRINCIPAL DO SITE
+   =========================================================
+
+   Este arquivo contém os estilos que são usados
+   em várias páginas do site.
+
+   Aqui ficam principalmente:
+   - configurações gerais
+   - cabeçalho
+   - logo
+   - menu
+   - botões
+   - mensagens
+   - rodapé
+   - responsividade geral
+
+   IMPORTANTE:
+   CSS significa "Cascading Style Sheets".
+   Ele é responsável pela aparência do site.
+   ========================================================= */
+
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+   ========================================================= */
+
+/*
+   O símbolo * significa "todos os elementos".
+
+   margin: 0;
+   → remove a margem padrão dos elementos.
+
+   padding: 0;
+   → remove o espaçamento interno padrão.
+
+   box-sizing: border-box;
+   → faz com que padding e border sejam considerados
+     dentro do tamanho definido do elemento.
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/*
+   Estilos gerais do corpo da página.
+
+   body representa todo o conteúdo visível
+   da página HTML.
+
+   font-family:
+   define a fonte utilizada no site.
+
+   background-color:
+   define a cor de fundo.
+
+   color:
+   define a cor padrão dos textos.
+*/
+
+body {
+    font-family: Georgia, "Times New Roman", serif;
+    background-color: #faf7f2;
+    color: #4b3528;
+}
+
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
+/*
+   header é o cabeçalho do site.
+
+   display: flex;
+   → coloca os elementos lado a lado.
+
+   align-items: center;
+   → centraliza os elementos verticalmente.
+
+   justify-content: space-between;
+   → coloca a logo de um lado e o menu do outro.
+
+   width: 100%;
+   → ocupa toda a largura disponível.
+
+   padding:
+   → cria espaço interno no cabeçalho.
+
+   background-color:
+   → deixa o fundo branco.
+
+   border-bottom:
+   → cria uma linha fina na parte inferior.
+*/
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 24px clamp(35px, 6vw, 90px);
+    background-color: #ffffff;
+    border-bottom: 1px solid #e4d8cc;
+    gap: 50px;
+}
+
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
+/*
+   .logo seleciona o elemento que possui
+   class="logo".
+
+   display: flex;
+   → permite organizar o conteúdo da logo.
+
+   flex-shrink: 0;
+   → impede que a logo fique pequena demais
+     quando o espaço diminuir.
+*/
+
+.logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+
+/*
+   O link que envolve a logo.
+
+   display: block;
+   → faz o link ocupar corretamente
+     a área da imagem.
+*/
+
+.logo a {
+    display: block;
+}
+
+
+/*
+   Estilo da imagem da logo.
+
+   width:
+   define a largura.
+
+   clamp():
+   permite que o tamanho seja responsivo.
+
+   height: auto;
+   → mantém a proporção original da imagem.
+
+   display: block;
+   → evita pequenos espaços indesejados
+     abaixo da imagem.
+*/
+
+.logo img {
+    width: clamp(145px, 16vw, 215px);
+    height: auto;
+    display: block;
+}
+
+
+/* =========================================================
+   MENU
+   ========================================================= */
+
+/*
+   nav representa o menu de navegação.
+
+   display: flex;
+   → coloca os links lado a lado.
+
+   justify-content: flex-end;
+   → deixa o menu alinhado à direita.
+
+   gap:
+   define o espaço entre os links.
+*/
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: clamp(35px, 5vw, 70px);
+}
+
+
+/*
+   Estilo dos links do menu.
+
+   color:
+   define a cor do texto.
+
+   text-decoration: none;
+   → remove o sublinhado padrão dos links.
+
+   white-space: nowrap;
+   → impede que "Sobre nós", por exemplo,
+     seja quebrado em duas linhas.
+
+   transition:
+   deixa a mudança de cor suave.
+*/
+
+nav a {
+    color: #6f3c3c;
+    text-decoration: none;
+    font-size: clamp(19px, 1.7vw, 25px);
+    font-weight: normal;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+
+/*
+   :hover significa:
+   "quando o mouse estiver em cima".
+
+   Nesse caso, mudamos a cor do link.
+*/
+
+nav a:hover {
+    color: #b18a5b;
+}
+
+
+/* =========================================================
+   CONFIGURAÇÃO GERAL DAS PÁGINAS
+   ========================================================= */
+
+/*
+   main representa o conteúdo principal
+   de uma página.
+
+   min-height:
+   define uma altura mínima para evitar
+   que páginas muito pequenas fiquem
+   visualmente apertadas.
+*/
+
+main {
+    min-height: 500px;
+}
+
+
+/* =========================================================
+   BOTÕES
+   ========================================================= */
+
+/*
+   .botao é uma classe reutilizável.
+
+   Ela pode ser utilizada em diferentes
+   partes do site quando queremos um botão
+   no mesmo estilo.
+*/
+
+.botao {
+    display: inline-block;
+    background-color: #7a3f3f;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 14px 32px;
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    transition: all 0.3s ease;
+}
+
+
+/*
+   Quando o mouse passa sobre o botão:
+
+   background-color:
+   muda a cor.
+
+   transform:
+   move o botão levemente para cima.
+*/
+
+.botao:hover {
+    background-color: #a97843;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   MENSAGENS
+   ========================================================= */
+
+/*
+   .mensagem é usada para mensagens
+   mostradas pelo sistema.
+
+   Por exemplo:
+   - cadastro realizado
+   - senha incorreta
+   - erro no sistema
+*/
+
+.mensagem {
+    margin-bottom: 25px;
+    font-size: 16px;
+}
+
+
+/*
+   .mensagem.sucesso significa:
+
+   elemento com class="mensagem sucesso"
+
+   A mensagem de sucesso ficará verde.
+*/
+
+.mensagem.sucesso {
+    color: #567044;
+}
+
+
+/*
+   .mensagem.erro significa:
+
+   elemento com class="mensagem erro"
+
+   A mensagem de erro ficará avermelhada.
+*/
+
+.mensagem.erro {
+    color: #9a4c4c;
+}
+
+
+/* =========================================================
+   RODAPÉ
+   ========================================================= */
+
+/*
+   footer é a parte inferior do site.
+
+   background-color:
+   deixa o fundo marrom.
+
+   color:
+   define a cor dos textos.
+
+   text-align:
+   centraliza os textos.
+
+   padding:
+   cria espaço interno.
+*/
+
+footer {
+    background-color: #4b3528;
+    color: #ffffff;
+    text-align: center;
+    padding: 34px 20px;
+}
+
+
+/*
+   Define o espaçamento dos parágrafos
+   dentro do rodapé.
+*/
+
+footer p {
+    margin: 6px;
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+/*
+   @media permite criar regras diferentes
+   dependendo do tamanho da tela.
+
+   Aqui estamos dizendo:
+
+   "Quando a tela tiver no máximo 1050px,
+   faça esta alteração."
+*/
+
+
+@media (max-width: 1050px) {
+
+    /*
+       Esta regra será utilizada posteriormente
+       pela grade de produtos.
+
+       Em telas menores, os produtos passam
+       de 3 colunas para 2.
+    */
+
+    .grade-produtos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+/*
+   Quando a tela tiver até 900px,
+   ajustamos o cabeçalho.
+*/
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 22px 35px;
+    }
+
+    nav {
+        gap: 25px;
+    }
+
+    nav a {
+        font-size: 19px;
+    }
+}
+
+
+/*
+   Quando a tela tiver até 700px,
+   normalmente estamos falando de celulares.
+*/
+
+@media (max-width: 700px) {
+
+    /*
+       No celular, logo e menu ficam
+       um embaixo do outro.
+    */
+
+    header {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+
+    /*
+       O menu ocupa toda a largura
+       disponível e pode quebrar linha.
+    */
+
+    nav {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 18px;
+    }
+
+
+    /*
+       Diminui o tamanho dos links
+       para caber melhor na tela.
+    */
+
+    nav a {
+        font-size: 17px;
+    }
+
+
+    /*
+       Diminui a logo no celular.
+    */
+
+    .logo img {
+        width: 145px;
+    }
+}

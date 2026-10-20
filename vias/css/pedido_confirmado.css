@@ -1,0 +1,96 @@
+/* Organizando a área da confirmação */
+.pagina-confirmacao {
+    min-height: 650px;
+    padding: 70px 25px;
+    background: #fffdf9;
+
+    /* Centralizando a mensagem na página */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Criando o espaço da mensagem */
+.confirmacao {
+    width: 100%;
+    max-width: 650px;
+    padding: 55px 45px;
+
+    background: #ffffff;
+    border: 1px solid #e2d4c5;
+    box-shadow: 0 8px 30px rgba(107, 75, 58, 0.10);
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Criando o detalhe decorativo */
+.confirmacao-detalhe {
+    display: block;
+    color: #b18a5b;
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+/* Estilizando o título */
+.confirmacao h1 {
+    color: #7a3f3f;
+    font-size: 48px;
+    font-weight: normal;
+    margin: 0 0 20px;
+}
+
+/* Estilizando os textos */
+.confirmacao p {
+    color: #6b4b3a;
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 10px 0;
+}
+
+/* Destacando o número do pedido */
+.confirmacao strong {
+    color: #7a3f3f;
+    font-size: 20px;
+}
+
+/* Estilizando o botão */
+.confirmacao .botao {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 15px 35px;
+
+    background: #7a3f3f;
+    color: white;
+
+    text-decoration: none;
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+
+/* Criando o efeito do botão */
+.confirmacao .botao:hover {
+    background: #b18a5b;
+}
+
+/* Ajustando a confirmação no celular */
+@media (max-width: 600px) {
+
+    .pagina-confirmacao {
+        padding: 50px 18px;
+    }
+
+    .confirmacao {
+        padding: 40px 25px;
+    }
+
+    .confirmacao h1 {
+        font-size: 38px;
+    }
+
+    .confirmacao .botao {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

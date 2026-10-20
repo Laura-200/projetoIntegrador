@@ -1,0 +1,61 @@
+/* =========================================
+   HOME
+   ========================================= */
+
+/* Centraliza o conteúdo principal da Home */
+.hero {
+    min-height: 650px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 90px 25px;
+}
+
+/* Detalhe decorativo acima do título */
+.hero-detalhe {
+    color: #b18a5b;
+    font-size: 22px;
+    margin-bottom: 22px;
+}
+
+/* Define o título principal */
+.hero h2 {
+    color: #7a3f3f;
+    font-size: clamp(38px, 5vw, 60px);
+    line-height: 1.2;
+    font-weight: normal;
+    margin-bottom: 25px;
+}
+
+/* Define o texto de apresentação */
+.hero-texto {
+    color: #6b4b3a;
+    font-size: 20px;
+    line-height: 1.7;
+    max-width: 650px;
+    margin-bottom: 10px;
+}
+
+/* Define a frase da marca */
+.hero-frase {
+    color: #967963;
+    font-size: 17px;
+    font-style: italic;
+    margin-bottom: 35px;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+   ========================================= */
+
+/* Ajusta a Home para telas menores */
+@media (max-width: 700px) {
+
+    .hero {
+        min-height: 580px;
+        padding: 70px 20px;
+    }
+}

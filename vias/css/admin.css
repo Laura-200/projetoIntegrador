@@ -1,0 +1,221 @@
+/* Organizando a área administrativa */
+.pagina-admin {
+    min-height: 650px;
+    padding: 90px 25px;
+}
+
+/* Centralizando todo o conteúdo */
+.admin {
+    width: 100%;
+    max-width: 1100px;
+    margin: auto;
+    text-align: center;
+}
+
+/* Definindo o detalhe decorativo */
+.admin-detalhe {
+    color: #b18a5b;
+    font-size: 22px;
+}
+
+/* Definindo os títulos */
+.admin h1 {
+    color: #7a3f3f;
+    font-size: clamp(38px, 5vw, 52px);
+    font-weight: normal;
+    margin: 18px 0;
+}
+
+/* Definindo os textos de apresentação */
+.admin-introducao {
+    color: #6b4b3a;
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+/* Criando o botão principal */
+.admin > .botao {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #7a3f3f;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 45px;
+    transition: 0.3s;
+}
+
+/* Mudando o botão ao passar o mouse */
+.admin > .botao:hover {
+    background: #b18a5b;
+}
+
+/* Organizando os cartões do painel */
+.admin-opcoes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+/* Estilizando os cartões */
+.admin-opcoes a {
+    padding: 35px;
+    background: #fffaf4;
+    border: 1px solid #e2d4c5;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Destacando os cartões */
+.admin-opcoes a:hover {
+    transform: translateY(-4px);
+    border-color: #b18a5b;
+}
+
+/* Definindo os títulos dos cartões */
+.admin-opcoes h2 {
+    color: #7a3f3f;
+    font-weight: normal;
+    margin-bottom: 10px;
+}
+
+/* Definindo os textos dos cartões */
+.admin-opcoes p {
+    color: #6b4b3a;
+}
+
+/* Organizando a lista de produtos */
+.admin-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+}
+
+/* Criando cada cartão de produto */
+.admin-item {
+    padding: 22px 28px;
+    background: #fffaf4;
+    border: 1px solid #e2d4c5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+/* Destacando o produto */
+.admin-item:hover {
+    border-color: #b18a5b;
+    transform: translateY(-2px);
+}
+
+/* Definindo o nome do produto */
+.admin-item h2 {
+    color: #7a3f3f;
+    font-size: 21px;
+    font-weight: normal;
+    margin-bottom: 8px;
+}
+
+/* Definindo as informações do produto */
+.admin-item p {
+    color: #6b4b3a;
+    margin: 4px 0;
+    font-size: 15px;
+}
+
+/* Organizando os botões */
+.admin-acoes {
+    display: flex;
+    gap: 12px;
+}
+
+/* Estilizando os botões */
+.admin-acoes a {
+    padding: 9px 16px;
+    border: 1px solid #b18a5b;
+    color: #7a3f3f;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Destacando os botões */
+.admin-acoes a:hover {
+    background: #7a3f3f;
+    color: white;
+}
+
+/* Organizando o formulário */
+.formulario-admin {
+    width: 100%;
+    max-width: 650px;
+    margin: 40px auto;
+    text-align: left;
+}
+
+/* Organizando cada campo */
+.campo-admin {
+    margin-bottom: 20px;
+}
+
+/* Estilizando os nomes dos campos */
+.campo-admin label {
+    display: block;
+    color: #7a3f3f;
+    margin-bottom: 8px;
+}
+
+/* Estilizando os campos */
+.campo-admin input,
+.campo-admin textarea,
+.campo-admin select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d8c8b8;
+    background: #fffaf4;
+    font-family: inherit;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Destacando o campo selecionado */
+.campo-admin input:focus,
+.campo-admin textarea:focus,
+.campo-admin select:focus {
+    outline: none;
+    border-color: #b18a5b;
+}
+
+/* Mostrando a mensagem de sucesso */
+.mensagem-sucesso {
+    color: #5f7048;
+    margin: 25px 0;
+}
+
+/* Definindo o link de voltar */
+.voltar-produtos {
+    color: #7a3f3f;
+    text-decoration: none;
+}
+
+/* Mudando a cor do link */
+.voltar-produtos:hover {
+    color: #b18a5b;
+}
+
+/* Ajustando o painel para telas menores */
+@media (max-width: 700px) {
+
+    .admin-opcoes {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .admin-acoes {
+        flex-wrap: wrap;
+    }
+}

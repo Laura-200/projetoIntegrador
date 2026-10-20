@@ -1,0 +1,85 @@
+.pagina-perfil {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 90px 25px;
+}
+
+.perfil {
+    width: 100%;
+    max-width: 650px;
+    text-align: center;
+}
+
+.perfil-detalhe {
+    color: #b18a5b;
+    font-size: 22px;
+    display: block;
+    margin-bottom: 22px;
+}
+
+.perfil h1 {
+    color: #7a3f3f;
+    font-size: clamp(38px, 5vw, 55px);
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+
+.perfil-introducao {
+    color: #6b4b3a;
+    font-size: 18px;
+    margin-bottom: 35px;
+}
+
+.dados-perfil {
+    border: 1px solid #d8c8b8;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.dado {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid #e5ddd5;
+    text-align: left;
+}
+
+.dado:last-child {
+    border-bottom: none;
+}
+
+.dado-titulo {
+    color: #7a3f3f;
+    font-weight: bold;
+}
+
+.dado-valor {
+    color: #6b4b3a;
+}
+
+.botao-perfil {
+    display: inline-block;
+    padding: 14px 28px;
+    background-color: #7a3f3f;
+    color: white;
+    text-decoration: none;
+}
+
+.botao-perfil:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 700px) {
+
+    .pagina-perfil {
+        padding: 70px 20px;
+    }
+
+    .dado {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
