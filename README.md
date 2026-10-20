@@ -314,6 +314,114 @@ O arquivo utiliza PDO para estabelecer a comunicação entre o PHP e o banco de 
 
 As credenciais ficam na configuração local e não devem ser publicadas no GitHub. Para uma instalação em outro computador, é necessário configurar os dados de conexão correspondentes ao ambiente.
 
+## Como executar o projeto
+
+### 1. Pré-requisitos
+
+Antes de começar, instale:
+
+- [Git](https://git-scm.com/downloads)
+- [PHP](https://www.php.net/downloads.php)
+- [PostgreSQL](https://www.postgresql.org/download/) ou acesso ao servidor PostgreSQL utilizado pelo projeto.
+- [Visual Studio Code](https://code.visualstudio.com/)
+
+### 2. Baixar o projeto
+
+Abra o terminal e execute o comando abaixo, substituindo `URL_DO_REPOSITORIO` pelo endereço real do repositório no GitHub:
+
+```bash
+git clone https://github.com/Laura-200/projetoIntegrador.git
+```
+
+Entre na pasta do projeto:
+
+```bash
+cd vias
+```
+
+> O comando `git clone` cria a pasta do projeto e baixa os arquivos que estão salvos no repositório. Não é necessário criar as pastas manualmente depois disso.
+
+### 3. Abrir no Visual Studio Code
+
+Dentro da pasta do projeto, execute:
+
+```bash
+code .
+```
+
+Se o comando `code` não estiver disponível, abra o Visual Studio Code manualmente e selecione **Arquivo → Abrir Pasta → vias**.
+
+### 4. Conferir a instalação do PHP
+
+No terminal integrado do VS Code, execute:
+
+```bash
+php -v
+```
+
+Esse comando mostra a versão do PHP instalada.
+
+### 5. Conferir a estrutura do projeto
+
+A pasta principal deve conter os arquivos e diretórios necessários para o funcionamento do site, incluindo:
+
+A estrutura acima apresenta os principais arquivos e pastas, não necessariamente todos os arquivos do projeto.
+
+### 6. Configurar o banco de dados
+
+O projeto utiliza PostgreSQL e espera encontrar um banco chamado `vias`.
+
+Antes de executar o site:
+
+1. Verifique se o servidor PostgreSQL está acessível.
+2. Confirme se o banco `vias` existe.
+3. Verifique se as tabelas necessárias estão criadas.
+4. Confira as configurações de conexão no arquivo `config/conexao.php`.
+
+O arquivo `database.sql` deve ser consultado para identificar os comandos de criação das tabelas e os dados iniciais disponíveis.
+
+Caso seja necessário criar o banco do zero, utilize o PostgreSQL para criar o banco e executar o script SQL apropriado, depois de conferir seu conteúdo.
+
+**Atenção:** não execute scripts de criação indiscriminadamente em um banco que já contém dados, pois eles podem causar conflitos ou alterações indesejadas.
+
+### 7. Iniciar o servidor PHP
+
+No terminal do VS Code, dentro da pasta principal `vias`, execute:
+
+```bash
+php -S localhost:8000
+```
+
+Esse comando inicia o servidor local de desenvolvimento do PHP.
+
+Mantenha o terminal aberto enquanto estiver utilizando o site.
+
+### 8. Acessar o site
+
+Abra o navegador e acesse:
+
+```text
+http://localhost:8000
+```
+
+A página inicial do projeto será exibida.
+
+### 9. Encerrar o servidor
+
+Para interromper a execução, volte ao terminal e pressione:
+
+```text
+Ctrl + C
+```
+
+### 10. Observações importantes
+
+- O banco de dados PostgreSQL precisa estar acessível para que as funcionalidades que utilizam dados funcionem corretamente.
+- O arquivo `vias_backup.sql` é um backup do banco de dados e deve ser guardado em local seguro.
+- O backup não precisa ser restaurado a cada execução do site.
+- As credenciais do banco de dados não devem ser publicadas no GitHub.
+- O servidor iniciado com `php -S` é destinado ao desenvolvimento e aos testes locais, não à hospedagem de produção.
+
 ##  Testes do projeto
 
 De acordo com os testes registrados durante o desenvolvimento, foram verificadas as seguintes funcionalidades:
