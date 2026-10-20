@@ -116,6 +116,16 @@ Os requisitos funcionais descrevem as ações que o sistema deve permitir.
 
 ##   Estrutura do projeto
 
+O site fica dentro da pasta `vias/`, que está na raiz do repositório:
+
+```text
+projetoIntegrador/
+├── README.md                    # Documentação do projeto
+└── vias/                        # Pasta do site (rode o PHP daqui)
+```
+
+Dentro de `vias/`:
+
 ```text
 vias/
 ├── adm/                                  # Páginas da área administrativa
@@ -132,14 +142,20 @@ vias/
 │   └── admin_pedidos.php                 # Lista os pedidos realizados
 ├── config/
 │   └── conexao.php              # Configura a conexão com o PostgreSQL
-├── css/                         # Arquivos de estilo visual
+├── css/                         # Arquivos de estilo visual (um por página)
 │   ├── style.css                # Estilo geral do site
+│   ├── index.css                # Estilo da página inicial
+│   ├── admin.css                # Estilo do painel administrativo
 │   ├── cadastro.css             # Estilo da página de cadastro
 │   ├── login.css                # Estilo da página de login
+│   ├── perfil.css               # Estilo da página de perfil
 │   ├── produtos.css             # Estilo da listagem de produtos
 │   ├── produto.css              # Estilo dos detalhes do produto
 │   ├── carrinho.css             # Estilo do carrinho
-│   └── finalizar_pedido.css     # Estilo da finalização do pedido
+│   ├── finalizar_pedido.css     # Estilo da finalização do pedido
+│   ├── pedido_confirmado.css    # Estilo da confirmação do pedido
+│   ├── sobre.css                # Estilo da página sobre
+│   └── contato.css              # Estilo da página de contato
 ├── imagens/                     # Imagens utilizadas no site
 │   ├── logo.png                 # Logo da loja
 │   └── produtos/                # Fotografias dos produtos
@@ -159,9 +175,9 @@ vias/
 ├── pedido_confirmado.php        # Exibe a confirmação do pedido
 ├── sobre.php                    # Apresenta informações sobre a loja
 ├── contato.php                  # Exibe os canais de contato
-├── database.sql                 # Contém comandos SQL do banco de dados
-├── anotacoes.md                 # Guarda anotações do desenvolvimento
-└── README.md                    # Documentação do projeto
+├── database.sql                 # Cria as tabelas e coloca categorias e produtos
+├── vias_backup.sql              # Backup completo do banco (com pedidos e usuários)
+└── anotacoes.md                 # Guarda anotações do desenvolvimento
 ```
 
 ### Organização dos diretórios
@@ -294,12 +310,12 @@ Pedido confirmado
 
 ```text
 Login
-  ↓
+↓
 Painel administrativo
-  ├── Produtos
-  ├── Categorias
-  ├── Clientes
-  └── Pedidos
+├── Produtos
+├── Categorias
+├── Clientes
+└── Pedidos
 ```
 
 ##  Conexão com o banco
@@ -333,23 +349,23 @@ Abra o terminal e execute o comando abaixo:
 git clone https://github.com/Laura-200/projetoIntegrador.git
 ```
 
-Entre na pasta do projeto:
+Entre na pasta do site. Ela é a pasta `vias`, **dentro** de `projetoIntegrador`:
 
 ```bash
-cd vias
+cd projetoIntegrador/vias
 ```
 
 > O comando `git clone` cria a pasta do projeto e baixa os arquivos que estão salvos no repositório. Não é necessário criar as pastas manualmente depois disso.
 
 ### 3. Abrir no Visual Studio Code
 
-Dentro da pasta do projeto, execute:
+Dentro da pasta `vias`, execute:
 
 ```bash
 code .
 ```
 
-Se o comando `code` não estiver disponível, abra o Visual Studio Code manualmente e selecione **Arquivo → Abrir Pasta → vias**.
+Se o comando `code` não estiver disponível, abra o Visual Studio Code manualmente e selecione **Arquivo → Abrir Pasta → projetoIntegrador → vias**.
 
 ### 4. Conferir a instalação do PHP
 
@@ -361,32 +377,228 @@ php -v
 
 Esse comando mostra a versão do PHP instalada.
 
-### 5. Conferir a estrutura do projeto
+Depois, confira se o PHP sabe conversar com o PostgreSQL:
 
-A pasta principal deve conter os arquivos e diretórios necessários para o funcionamento do site, incluindo:
+```bash
+php -m
+```
 
-A estrutura acima apresenta os principais arquivos e pastas, não necessariamente todos os arquivos do projeto.
+Na lista que aparecer, precisa existir a linha `pdo_pgsql`. Se ela não aparecer, abra o arquivo `php.ini` (fica na pasta onde o PHP foi instalado), procure a linha `;extension=pdo_pgsql`, apague o `;` do começo, salve e abra um terminal novo.
 
-### 6. Configurar o banco de dados
+### 5. Conferir se você está na pasta certa
 
-O projeto utiliza PostgreSQL e espera encontrar um banco chamado `vias`.
+Execute:
 
-Antes de executar o site:
+```bash
+ls
+```
 
-1. Verifique se o servidor PostgreSQL está acessível.
-2. Confirme se o banco `vias` existe.
-3. Verifique se as tabelas necessárias estão criadas.
-4. Confira as configurações de conexão no arquivo `config/conexao.php`.
+Se aparecerem o arquivo `index.php`, o arquivo `database.sql` e a pasta `config`, você está no lugar certo. Se não aparecerem, volte ao passo 2.
 
-O arquivo `database.sql` deve ser consultado para identificar os comandos de criação das tabelas e os dados iniciais disponíveis.
+### 6. Configurar o banco de dados (passo a passo)
 
-Caso seja necessário criar o banco do zero, utilize o PostgreSQL para criar o banco e executar o script SQL apropriado, depois de conferir seu conteúdo.
+Siga os passos na ordem, um de cada vez.
 
-**Atenção:** não execute scripts de criação indiscriminadamente em um banco que já contém dados, pois eles podem causar conflitos ou alterações indesejadas.
+#### 6.1 O que é isso tudo?
+
+- O **PostgreSQL** é um armário gigante.
+- O **banco `vias`** é uma gaveta desse armário, só da nossa loja.
+- As **tabelas** são caixinhas dentro da gaveta: uma de usuários, uma de produtos, uma de pedidos...
+- O **`psql`** é a janelinha preta onde a gente escreve ordens para o armário.
+
+Se a gaveta `vias` não existir, o site não acha nada e mostra *"Não foi possível conectar ao banco"*.
+
+#### 6.2 Abrir a janelinha do psql
+
+**Jeito mais fácil (Windows):**
+
+1. Aperte a tecla do Windows.
+2. Digite **SQL Shell (psql)** e abra.
+3. Ele vai perguntar `Server`, `Database`, `Port` e `Username`. Só aperte **Enter** em cada um (ele usa o padrão).
+4. Quando pedir `Password`, digite a senha que você escolheu ao instalar o PostgreSQL e aperte **Enter**.
+
+> ⚠️ A senha **não aparece** enquanto você digita. Nem bolinha, nem asterisco. Isso é normal! Digite normalmente e aperte Enter.
+
+Deu certo quando aparecer isto:
+
+```text
+postgres=#
+```
+
+Esse `postgres=#` quer dizer: *"estou ouvindo, pode mandar"*.
+
+**Jeito pelo terminal do VS Code** (só funciona se o `psql` estiver no PATH):
+
+```bash
+psql -U postgres
+```
+
+#### 6.3 Criar a gaveta `vias`
+
+Na janelinha do psql, digite:
+
+```sql
+CREATE DATABASE vias;
+```
+
+> **Regra de ouro:** comando SQL termina com **ponto e vírgula** `;`. Se esquecer, o psql fica esperando e mostra `postgres-#` (com tracinho). Aí é só digitar `;` e apertar Enter.
+
+Se aparecer `CREATE DATABASE`, deu certo!
+
+Agora entre na gaveta:
+
+```sql
+\c vias
+```
+
+O começo da linha muda para `vias=#`. A partir de agora, tudo o que você fizer vai para a gaveta certa.
+
+> Comandos que começam com `\` (barra invertida) são do próprio psql e **não** precisam de `;`.
+
+#### 6.4 Encher a gaveta com as caixinhas
+
+Aqui você escolhe **UM** caminho. **Só um!** Se fizer os dois, as caixinhas brigam e dá erro.
+
+**Caminho A: começar do zero (recomendado)**
+
+Cria as 5 tabelas e coloca as categorias e os produtos. Também cria as 2 contas padrão (veja o passo 6.7). Não vem nenhum pedido.
+
+Ainda no psql (com `vias=#` na tela), digite o caminho do arquivo `database.sql` do **seu** computador, usando barras normais `/`:
+
+```sql
+\i 'C:/Users/SEU_USUARIO/Documents/projetoIntegrador/vias/database.sql'
+```
+
+> Troque `C:/Users/SEU_USUARIO/Documents` pelo lugar onde você clonou o projeto. Dica: no VS Code, clique com o botão direito no `database.sql` → **Copiar Caminho**, cole e troque as `\` por `/`.
+
+Ou, pelo terminal do VS Code, dentro da pasta `vias`:
+
+```bash
+psql -U postgres -d vias -f database.sql
+```
+
+**Caminho B: restaurar o backup**
+
+Traz tudo do jeito que estava: produtos, usuários e pedidos antigos. Pelo terminal, dentro da pasta `vias`:
+
+```bash
+psql -U postgres -d vias -f vias_backup.sql
+```
+
+> O backup também já vem com as 2 contas padrão do passo 6.7.
+
+#### 6.5 Conferir se as caixinhas estão lá
+
+No psql, conectado em `vias`:
+
+```sql
+\dt
+```
+
+Tem que aparecer uma lista com estas 5 tabelas:
+
+```text
+categorias
+itens_pedido
+pedidos
+produtos
+usuarios
+```
+
+Quer ver os produtos?
+
+```sql
+SELECT * FROM produtos;
+```
+
+Se aparecerem o Terço Rosa, o Crucifixo Dourado e companhia, o banco está pronto.
+
+#### 6.6 Contar para o PHP onde fica o banco
+
+Abra o arquivo `config/conexao.php` e confira estas linhas:
+
+```php
+$servidor = "localhost";       // "localhost" = o banco está no seu próprio computador
+$porta = "5432";               // porta padrão do PostgreSQL
+$banco = "vias";               // o nome da gaveta que você criou
+$usuario = "postgres";         // o usuário do PostgreSQL
+$senha = "SUA_SENHA_AQUI";     // a senha que você digita no psql
+```
+
+- Se o banco estiver no seu computador, use `localhost`.
+- Se o banco estiver no servidor da escola, use o endereço IP do servidor.
+- **Nunca** envie a sua senha verdadeira para o GitHub.
+
+#### 6.7 Contas padrão
+
+Os dois caminhos já criam estas contas para testar o site:
+
+| Tipo | E-mail | Senha |
+|---|---|---|
+| Administrador | `admin@vias.com` | `admin123` |
+| Cliente | `cliente@vias.com` | `cliente123` |
+
+As senhas ficam guardadas no banco em **hash** (um código embaralhado), igual às contas criadas pelo cadastro do site.
+
+> Essas senhas são só para testes. Se o site for usado de verdade, troque-as ou apague essas contas.
+
+**Quer transformar a sua própria conta em administrador?**
+
+1. Inicie o site (passo 7) e abra `http://localhost:8000/cadastro.php`.
+2. Cadastre-se normalmente, com o seu e-mail.
+3. Volte ao psql, conectado em `vias`, e rode:
+
+```sql
+UPDATE usuarios
+SET tipo = 'admin'
+WHERE email = 'seu@email.com';
+```
+
+4. Saia e entre de novo no site. Agora o painel administrativo abre.
+
+#### 6.8 Sair do psql
+
+```sql
+\q
+```
+
+#### Deu erro?
+
+| Mensagem | O que quer dizer | O que fazer |
+|---|---|---|
+| `'psql' não é reconhecido como um comando` | O terminal não sabe onde está o psql | Use o **SQL Shell (psql)** do menu Iniciar |
+| `password authentication failed` | Senha errada | Digite de novo, com calma (ela não aparece mesmo) |
+| `database "vias" already exists` | A gaveta já existe | Tudo bem! Pule para o `\c vias` |
+| `relation "usuarios" already exists` | As tabelas já foram criadas antes | Não rode o script de novo. Se quiser zerar, veja abaixo |
+| `could not find driver` (no site) | O PHP não tem o `pdo_pgsql` ligado | Volte ao passo 4 |
+| `Connection refused` (no site) | O PostgreSQL está desligado ou o `$servidor` está errado | Confira o `config/conexao.php` |
+| `postgres-#` e nada acontece | Faltou o `;` | Digite `;` e aperte Enter |
+
+**Quero apagar tudo e começar de novo** ⚠️ (isso apaga **todos** os dados do banco `vias`, sem volta):
+
+```sql
+\c postgres
+DROP DATABASE vias;
+CREATE DATABASE vias;
+\c vias
+```
+
+Depois, repita o passo 6.4.
+
+#### Colinha de comandos do psql
+
+| Comando | O que faz |
+|---|---|
+| `\l` | Lista todos os bancos (gavetas) |
+| `\c vias` | Entra no banco `vias` |
+| `\dt` | Lista as tabelas (caixinhas) |
+| `\d produtos` | Mostra as colunas da tabela `produtos` |
+| `SELECT * FROM usuarios;` | Mostra todos os usuários |
+| `\q` | Sai do psql |
 
 ### 7. Iniciar o servidor PHP
 
-No terminal do VS Code, dentro da pasta principal `vias`, execute:
+No terminal do VS Code, dentro da pasta `vias`, execute:
 
 ```bash
 php -S localhost:8000
@@ -417,7 +629,7 @@ Ctrl + C
 ### 10. Observações importantes
 
 - O banco de dados PostgreSQL precisa estar acessível para que as funcionalidades que utilizam dados funcionem corretamente.
-- O arquivo `vias_backup.sql` é um backup do banco de dados e deve ser guardado em local seguro.
+- O arquivo `vias_backup.sql` é um backup do banco de dados. Ele contém e-mails e senhas (em hash) de usuários, então deve ser guardado em local seguro.
 - O backup não precisa ser restaurado a cada execução do site.
 - As credenciais do banco de dados não devem ser publicadas no GitHub.
 - O servidor iniciado com `php -S` é destinado ao desenvolvimento e aos testes locais, não à hospedagem de produção.
