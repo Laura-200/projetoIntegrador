@@ -574,7 +574,7 @@ Os dois caminhos já criam estas contas para testar o site:
 
 | Tipo | E-mail | Senha |
 |---|---|---|
-| Administrador | `admin@vias.com` | `admin123` |
+| Administrador | `adm@vias.com` | `123456` |
 | Cliente | `cliente@vias.com` | `cliente123` |
 
 > Não confunda: essas são contas **do site** (para fazer login na loja). O `vias_user` é o usuário **do banco** (só o PHP usa).
